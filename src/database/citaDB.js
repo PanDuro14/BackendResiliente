@@ -1,4 +1,4 @@
-require('dotenv').config(); 
+require('dotenv').config();
 const { Pool } = require('pg');
 
 const pool = new Pool({
@@ -42,11 +42,12 @@ const getOneCita = async (id) => {
 };
 
 // POST
-const createCita = async ( nombrecompleto, correo, telefono, tipocita, modalidad, fecha, horario, psicologo, cuentanosdeti) => {
+const createCita = async (nombrecompleto, correo, telefono, tipocita, modalidad, fecha, horario, psicologo, cuentanosdeti) => {
     return new Promise((resolve, reject) => {
-        const sql = "INSERT INTO citas ( nombrecompleto, correo, telefono, tipocita, modalidad, fecha, horario, psicologo, cuentanosdeti) VALUES ($1, $2, $3, $4, $5, $6, $7, $8,)";
-        pool.query(sql, [ nombrecompleto, correo, telefono, tipocita, modalidad, fecha, horario, psicologo, cuentanosdeti], (error) => {
+        const sql = "INSERT INTO citas (nombrecompleto, correo, telefono, tipocita, modalidad, fecha, horario, psicologo, cuentanosdeti) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)";
+        pool.query(sql, [nombrecompleto, correo, telefono, tipocita, modalidad, fecha, horario, psicologo, cuentanosdeti], (error) => {
             if (error) {
+                console.error("Error al insertar cita:", error);  // Agregar log de error
                 return reject(error);
             }
             resolve("Cita agregada");
@@ -55,10 +56,10 @@ const createCita = async ( nombrecompleto, correo, telefono, tipocita, modalidad
 };
 
 // PATCH
-const updateCita = async ( nombrecompleto, correo, telefono, tipocita, modalidad, fecha, horario, psicologo, cuentanosdeti, id) => {
+const updateCita = async (nombrecompleto, correo, telefono, tipocita, modalidad, fecha, horario, psicologo, cuentanosdeti, id) => {
     return new Promise((resolve, reject) => {
         const sql = "UPDATE citas SET nombrecompleto = $1, correo = $2, telefono = $3, tipocita = $4, modalidad = $5, fecha = $6, horario = $7, psicologo = $8, cuentanosdeti = $9 WHERE id = $10";
-        pool.query(sql, [ nombrecompleto, correo, telefono, tipocita, modalidad, fecha, horario, psicologo, cuentanosdeti, id], (error) => {
+        pool.query(sql, [nombrecompleto, correo, telefono, tipocita, modalidad, fecha, horario, psicologo, cuentanosdeti, id], (error) => {
             if (error) {
                 return reject(error);
             }
@@ -82,14 +83,14 @@ const deleteCita = async (id) => {
 
 const disponibilidad = async (fecha, hora) => {
     return new Promise((resolve, reject) => {
-        const sql = 'Select * from citas where fecha = $1 and hora = $2'; 
+        const sql = 'SELECT * FROM citas WHERE fecha = $1 AND horario = $2';
         pool.query(sql, [fecha, hora], (error) => {
             if (error) {
-                return reject(error); 
+                return reject(error);
             }
-            resolve('Cita existente'); 
+            resolve('Cita existente');
         });
-    }); 
+    });
 }
 
 
@@ -98,6 +99,6 @@ module.exports = {
     getOneCita,
     createCita,
     updateCita,
-    deleteCita, 
+    deleteCita,
     disponibilidad
 };

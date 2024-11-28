@@ -24,3 +24,14 @@ Cambiar a sus necesidades
 - flyctl deploy                       // hacer commit  
 - flyctl status                       // ver el estado de la app
 - flyctl logs                         // ver la consola de la app 
+
+flyctl ssh console -a resilienteflydb  
+psql postgres://backend_resiliente_fly:wk2KKJpa0I1A9M@localhost:5432/backend_resiliente_fly
+
+psql postgres://backend_resiliente_fly:wk2KKJpa0I1A9M9@localhost:5432/backend_resiliente_fly
+
+backend_resiliente_fly
+
+\dt  : ver todas las tablas
+\d [tabla] :  ver información de las tablas 
+\c [db_name] : cambiar de db
